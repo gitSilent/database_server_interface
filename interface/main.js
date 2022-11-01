@@ -72,6 +72,7 @@ function addAuthor(name_author, birthday_author){
     
 }
 
+
 btnAddAuthor.addEventListener('click', ()=>{
     delete document.querySelector('.table_allBooks')
     // addAuthor('Блок','1900-01-01')

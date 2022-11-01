@@ -47,9 +47,11 @@ app.get("/get/allAuthors", async(req, res) => {
 app.post("/post/author", async(req, res) => {
     let connection = await pool.getConnection();
     let author_info = req.body;
+    console.log('ny')
     console.log(req.body)
     
     const post = await connection.query(`insert into authors values (${author_info.id_author}, ${JSON.stringify(author_info.name_author)}, ${JSON.stringify(author_info.birthday_author)})`, (err, data) => {
+       if(err) throw (err)
         console.log(data)
     })
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -64,6 +66,17 @@ app.post("/post/author", async(req, res) => {
     // console.log(results);
     // return(results)
     // });
+})
+
+app.put("/put/moving", async(req,res)=>{
+    let connection = await pool.getConnection();
+    let moving_info = req.body;
+
+    const put = await connection.query(`update moving set date_in=${JSON.stringify(moving_info.date_in)} where id_note = ${moving_info.id_note}`, (err,data)=>{
+        console.log(data)
+    })
+    res.json(put)
+
 })
 
 // mysql.format()
