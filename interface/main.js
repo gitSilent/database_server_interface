@@ -1,22 +1,24 @@
-fetch("http://localhost:4000/")
-.then(val =>
-    val.json()
-)
-.then((val)=>{
-    console.log(val)
-})
+// fetch("http://localhost:4000/")
+// .then(val =>
+//     val.json()
+// )
+// .then((val)=>{
+//     console.log(val)
+// })
 
 const btnAddAuthor = document.querySelector('.btn_add_author');
+const inputNameAuthor = document.querySelector('.input_nameAuthor')
+const inputBirthdayAuthor = document.querySelector('.input_birthdayAuthor')
 
 function fillTableBooks(id){
     
-    fetch(`http://localhost:4000/${id}`)
+    fetch(`http://127.0.0.1:4000/get/${id}`)
     .then(val =>
         val.json()
     )
     .then((val)=>{
         const table = document.createElement('table');
-        table.className = 'table_books';
+        table.className = `table_${id}`;
 
         let table_header = document.createElement('thead');
         let tr = document.createElement('tr');
@@ -52,24 +54,35 @@ function fillTableBooks(id){
 }
 
 function addAuthor(name_author, birthday_author){
-    fetch(`http://localhost:4000/postAuthor`,{
+    console.log()
+    fetch(`http://127.0.0.1:4000/post/author`,{
         method: 'POST',
         headers:{
-            'Content-Type': 'application/json;charset=utf-8'
+            'accept': 'application/json',
+            'content-type': 'application/json'
         },
-        body:{
+        body: JSON.stringify({
             id_author : 0,
-            name_author,
-            birthday_author
-        }
+            name_author: name_author,
+            birthday_author: birthday_author
+        }),
+        // body: "stroka",
+        mode: 'no-cors'
     })
     
 }
 
 btnAddAuthor.addEventListener('click', ()=>{
-    addAuthor('Блок','1900-01-01')
+    delete document.querySelector('.table_allBooks')
+    // addAuthor('Блок','1900-01-01')
+    console.log(inputNameAuthor.value)
+    console.log(inputBirthdayAuthor.value)
+    addAuthor(inputNameAuthor.value,inputBirthdayAuthor.value)
+    
+    // fillTableBooks("allAuthors")
+    
 })
 
 
-fillTableBooks("allBooks")
+// fillTableBooks("allBooks")
 fillTableBooks("allAuthors")
